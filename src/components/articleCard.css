@@ -1,0 +1,18 @@
+.articleText {
+    overflow: auto;
+    height: 25%;
+}
+
+.parentCard {
+  position:relative;
+
+}
+
+.buttonCard {
+  position: absolute;
+  bottom:   0;
+}
+
+.headText {
+  line-height: 90%;
+}
