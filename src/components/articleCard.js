@@ -23,7 +23,7 @@ export default class ArticleCard extends React.Component {
     return (
       <Col s={4}>
       <Collapsible popout>
-	      <CollapsibleItem className ="headText" header={this.props.article.headline.slice(0, 30)+ "..."}>
+	      <CollapsibleItem className ="headText" header={this.props.article.headline.slice(0, 25)+ "..."}>
 	    	<div className="card parentCard">
          <span className="card-title">
           <a href={this.props.article.web_url}  target="_blank" rel="noopener noreferrer"><h5 className="card-title">{this.props.article.headline}</h5></a>
