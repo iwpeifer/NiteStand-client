@@ -16,6 +16,8 @@ export default class Main extends Component {
       filteredArticles: []
     }
     this.selectArticle = this.selectArticle.bind(this)
+    this.createReadingList = this.createReadingList.bind(this)
+    this.deleteReadingList = this.deleteReadingList.bind(this)
   }
 
   componentDidMount() {
@@ -26,11 +28,12 @@ export default class Main extends Component {
   fetchArticles(){
     axios.get("http://localhost:3000/api/v1/articles")
       .then(res => {
-        const post = res.data.slice(0,3000).map(url => url)
+        const post = res.data.slice(0,100).map(url => url)
         this.setState({articles: post})
-        
+
       })
   }
+
 
   fetchReadingLists(){
     const url = "http://localhost:3000/api/v1/reading_lists"
@@ -39,6 +42,37 @@ export default class Main extends Component {
       .then( data => this.setState({
         readingLists: data
       }))
+  }
+
+  createReadingList(title){
+    const url = "http://localhost:3000/api/v1/reading_lists"
+    axios({
+      method: 'post',
+      url: url,
+      data: {
+        title: title,
+        articles: this.state.selectedArticles
+      }
+    }).then(response => {
+      console.log(response.data)
+      this.setState( prev => {
+        return { readingLists: [...prev.readingLists, response.data] }
+      })
+    })
+  }
+
+
+  deleteReadingList(id){
+    axios.delete(`http://localhost:3000/api/v1/reading_lists/${id}`)
+      .then( () => {
+        this.setState( prev => {
+          return {
+            readingLists: prev.readingLists.filter( readingList => {
+              return readingList.id !==id
+            })
+          }
+        })
+      })
   }
 
   displayArticles() {
@@ -68,14 +102,13 @@ export default class Main extends Component {
   }
 
   render() {
-    console.log(this.state.filteredArticles)
     return (
       <div className="main-page">
         <Navbar />
         <div className="row">
-          <Search search={this.search.bind(this)}/> 
+          <Search search={this.search.bind(this)}/>
           <div className="col s3">
-            <ReadingListContainer readingLists={this.state.readingLists} selectedArticles={this.state.selectedArticles}/>
+            <ReadingListContainer readingLists={this.state.readingLists} selectedArticles={this.state.selectedArticles} createReadingList={this.createReadingList} deleteReadingList={this.deleteReadingList}/>
           </div>
           <div className="col s9">
             <ul>
