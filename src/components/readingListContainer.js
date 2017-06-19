@@ -27,7 +27,7 @@ export default class ReadingListContainer extends React.Component {
   }
 
   handleClear(event) {
-    event.preventDefault() 
+    event.preventDefault()
     this.props.clearSelectedList()
   }
 
@@ -46,18 +46,21 @@ export default class ReadingListContainer extends React.Component {
     return (
       <div>
         <h3 className='ReadingListContainer-text'>My Reading Lists</h3>
-        <button className="orange" waves="light" onClick={this.handleClear}>Clear List</button>
+        <Collection>
+          <CollectionItem>
+
+                  <form>
+                    <input type="text" value={this.state.title} placeholder="Name Your Reading List" id="titleField" onChange={this.handleChange}/>
+                    <Button className="blue" waves="light" onClick={this.handleSubmit}> ▼ New Reading List</Button> <Button className="red right" waves="light" onClick={this.handleClear}>Clear Articles</Button>
+                  </form>
+
+          </CollectionItem>
+        </Collection>
         <Collection>
           {this.props.selectedArticles.map(article => <CollectionItem href="#" key={article.id}>{article.headline}</CollectionItem> )}
         </Collection>
         <Collapsible>
-          <CollapsibleItem header="New Reading List">
-            <form>
-              <input type="text" value={this.state.title} placeholder="Name Your Reading List" id="titleField" onChange={this.handleChange}/>
-              <Button className="orange" waves="light" onClick={this.handleSubmit}>Submit</Button>
-            </form>
-          </CollapsibleItem>
-            {this.props.readingLists.map(readingList => <CollapsibleItem header={readingList.title} href="#" key={readingList.id}>{this.renderReadingList(readingList)}</CollapsibleItem>)}
+            {this.props.readingLists.map(readingList => <CollapsibleItem header={readingList.title} href="#" key={readingList.id}><Button className="blue" waves="light">▲ Add to List</Button>{this.renderReadingList(readingList)}</CollapsibleItem>)}
         </Collapsible>
       </div>
     )

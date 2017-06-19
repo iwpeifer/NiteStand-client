@@ -13,11 +13,16 @@
   bottom:   0;
 }
 
-.orange {
+.wide {
   width: 100%;
 }
 
 .red {
+  padding: 0 0.5rem;
+  margin-top: 1em;
+}
+
+.blue {
   padding: 0 0.5rem;
   margin-top: 1em;
 }

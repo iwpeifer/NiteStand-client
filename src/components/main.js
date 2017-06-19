@@ -18,7 +18,7 @@ export default class Main extends Component {
     this.selectArticle = this.selectArticle.bind(this)
     this.createReadingList = this.createReadingList.bind(this)
     this.deleteReadingList = this.deleteReadingList.bind(this)
-    this.clearReadingList = this.clearReadingList.bind(this)
+    this.clearSelectedList = this.clearSelectedList.bind(this)
   }
 
   componentDidMount() {
@@ -68,10 +68,11 @@ export default class Main extends Component {
       this.setState( prev => {
         return { readingLists: [...prev.readingLists, response.data] }
       })
+      this.clearSelectedList()
     })
   }
 
-  clearReadingList() {
+  clearSelectedList() {
     this.setState({
       selectedArticles: []
     })
@@ -115,7 +116,7 @@ export default class Main extends Component {
         const post = res.data.map(url => url)
         this.setState({articles: post})
 
-      }).then(() => { 
+      }).then(() => {
         let initArticles = this.state.articles
         let filtered = initArticles.filter( (data) => (data.headline.toLowerCase().includes(searchTerm.toLowerCase()) ))
         this.setState({
@@ -123,7 +124,7 @@ export default class Main extends Component {
       })
 
       })
-    
+
   }
 
   render() {
@@ -133,7 +134,7 @@ export default class Main extends Component {
         <div className="row">
           <Search search={this.search.bind(this)}/>
           <div className="col s3">
-            <ReadingListContainer readingLists={this.state.readingLists} selectedArticles={this.state.selectedArticles} clearSelectedList={this.clearReadingList} createReadingList={this.createReadingList} deleteReadingList={this.deleteReadingList}/>
+            <ReadingListContainer readingLists={this.state.readingLists} selectedArticles={this.state.selectedArticles} clearSelectedList={this.clearSelectedList} createReadingList={this.createReadingList} deleteReadingList={this.deleteReadingList}/>
           </div>
           <div className="col s9">
             <ul>
