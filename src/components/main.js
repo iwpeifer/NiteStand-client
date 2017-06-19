@@ -18,6 +18,7 @@ export default class Main extends Component {
     this.selectArticle = this.selectArticle.bind(this)
     this.createReadingList = this.createReadingList.bind(this)
     this.deleteReadingList = this.deleteReadingList.bind(this)
+    this.clearReadingList = this.clearReadingList.bind(this)
   }
 
   componentDidMount() {
@@ -28,7 +29,16 @@ export default class Main extends Component {
   fetchArticles(){
     axios.get("http://localhost:3000/api/v1/articles")
       .then(res => {
-        const post = res.data.slice(0,100).map(url => url)
+        const post = res.data.slice(0,50).map(url => url)
+        this.setState({articles: post})
+
+      })
+  }
+
+  searchArticles(term){
+    axios.get(`http://localhost:3000/api/v1/articles/search?term=${term}`)
+      .then(res => {
+        const post = res.data.map(url => url)
         this.setState({articles: post})
 
       })
@@ -58,6 +68,12 @@ export default class Main extends Component {
       this.setState( prev => {
         return { readingLists: [...prev.readingLists, response.data] }
       })
+    })
+  }
+
+  clearReadingList() {
+    this.setState({
+      selectedArticles: []
     })
   }
 
@@ -94,11 +110,20 @@ export default class Main extends Component {
     })
   }
   search(searchTerm){
-    let initArticles = this.state.articles
-    let filtered = initArticles.filter( (data) => (data.headline.toLowerCase().includes(searchTerm.toLowerCase()) ))
-      this.setState({
+    axios.get(`http://localhost:3000/api/v1/articles/search?term=${searchTerm}`)
+      .then(res => {
+        const post = res.data.map(url => url)
+        this.setState({articles: post})
+
+      }).then(() => { 
+        let initArticles = this.state.articles
+        let filtered = initArticles.filter( (data) => (data.headline.toLowerCase().includes(searchTerm.toLowerCase()) ))
+        this.setState({
         filteredArticles: filtered
       })
+
+      })
+    
   }
 
   render() {
@@ -108,7 +133,7 @@ export default class Main extends Component {
         <div className="row">
           <Search search={this.search.bind(this)}/>
           <div className="col s3">
-            <ReadingListContainer readingLists={this.state.readingLists} selectedArticles={this.state.selectedArticles} createReadingList={this.createReadingList} deleteReadingList={this.deleteReadingList}/>
+            <ReadingListContainer readingLists={this.state.readingLists} selectedArticles={this.state.selectedArticles} clearSelectedList={this.clearReadingList} createReadingList={this.createReadingList} deleteReadingList={this.deleteReadingList}/>
           </div>
           <div className="col s9">
             <ul>

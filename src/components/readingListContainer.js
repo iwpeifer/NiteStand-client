@@ -14,6 +14,7 @@ export default class ReadingListContainer extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.renderReadingList = this.renderReadingList.bind(this)
+    this.handleClear = this.handleClear.bind(this)
   }
 
   handleSubmit(event) {
@@ -23,6 +24,11 @@ export default class ReadingListContainer extends React.Component {
     this.setState({
       title: ""
     })
+  }
+
+  handleClear(event) {
+    event.preventDefault() 
+    this.props.clearSelectedList()
   }
 
   handleChange(event) {
@@ -40,6 +46,7 @@ export default class ReadingListContainer extends React.Component {
     return (
       <div>
         <h3 className='ReadingListContainer-text'>My Reading Lists</h3>
+        <button className="orange" waves="light" onClick={this.handleClear}>Clear List</button>
         <Collection>
           {this.props.selectedArticles.map(article => <CollectionItem href="#" key={article.id}>{article.headline}</CollectionItem> )}
         </Collection>
