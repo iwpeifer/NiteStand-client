@@ -4,6 +4,10 @@ import Navbar from './navbar'
 import Search from './search'
 import ReadingListContainer from './readingListContainer'
 import ArticleCard from './articleCard'
+import history from '../history'
+
+// import { browserHistory } from 'react-router-dom'
+
 
 export default class Main extends Component {
   constructor() {
@@ -80,6 +84,7 @@ export default class Main extends Component {
 
 
   deleteReadingList(id){
+    history.push('/')
     axios.delete(`http://localhost:3000/api/v1/reading_lists/${id}`)
       .then( () => {
         this.setState( prev => {

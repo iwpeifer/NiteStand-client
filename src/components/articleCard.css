@@ -18,11 +18,21 @@
 }
 
 .red {
+  padding: 0.5 0.5rem;
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.list-title {
+  display: inline;
+}
+
+.blue {
   padding: 0 0.5rem;
   margin-top: 1em;
 }
 
-.blue {
+.orange {
   padding: 0 0.5rem;
   margin-top: 1em;
 }

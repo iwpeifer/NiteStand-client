@@ -1,6 +1,6 @@
 import React from 'react'
 import './articleCard.css'
-import { Col, Button, Collapsible, CollapsibleItem } from 'react-materialize'
+import { Col, Button, } from 'react-materialize'
 // import { Link } from 'react-router-dom'
 
 
@@ -22,8 +22,7 @@ export default class ArticleCard extends React.Component {
 
     return (
       <Col s={4}>
-      <Collapsible popout>
-	      <CollapsibleItem className ="headText" header={this.props.article.headline.slice(0, 25)+ "..."}>
+
 	    	<div className="card parentCard">
          <span className="card-title">
           <a href={this.props.article.web_url}  target="_blank" rel="noopener noreferrer"><h5 className="card-title">{this.props.article.headline}</h5></a>
@@ -35,8 +34,7 @@ export default class ArticleCard extends React.Component {
           Published: {this.props.article.pub_date} <Button className="blue wide" waves='light' onClick={event => this.handleClick(this.props.article)}>add</Button>
         </div>
       </div>
-	      </CollapsibleItem>
-      </Collapsible>
+
   </Col>
 
     )

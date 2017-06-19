@@ -1,6 +1,9 @@
 import React from 'react'
-import ArticleCard from './articleCard'
-import { Collection, CollectionItem, Collapsible, CollapsibleItem, Button } from 'react-materialize'
+import { Switch, Route, Link } from 'react-router-dom'
+
+import ReadingList from './readingList'
+import NewReadingListForm from'./newReadingListForm'
+import { Collection, CollectionItem, Button } from 'react-materialize'
 // import { Link } from 'react-router-dom'
 
 export default class ReadingListContainer extends React.Component {
@@ -43,26 +46,22 @@ export default class ReadingListContainer extends React.Component {
   }
 
   render() {
+    
     return (
       <div>
-        <h3 className='ReadingListContainer-text'>My Reading Lists</h3>
+        <Switch>
+          <Route exact path="/" render={ () => <NewReadingListForm title={this.state.title} handleChange={this.handleChange} handleSubmit={this.handleSubmit} handleClear={this.handleClear}/>}/>
+          <Route exact path="/:id" render={ (RouterProps) => <ReadingList readingList={this.props.readingLists.find(readingList => readingList.id == RouterProps.match.params.id)} deleteReadingList={this.props.deleteReadingList} />} />
+        </Switch>
         <Collection>
-          <CollectionItem>
-
-                  <form>
-                    <input type="text" value={this.state.title} placeholder="Name Your Reading List" id="titleField" onChange={this.handleChange}/>
-                    <Button className="blue" waves="light" onClick={this.handleSubmit}> ▼ New Reading List</Button> <Button className="red right" waves="light" onClick={this.handleClear}>Clear Articles</Button>
-                  </form>
-
-          </CollectionItem>
+          {this.props.selectedArticles.map(article => <CollectionItem href={article.web_url} target="_blank" rel="noopener noreferrer" key={article.id}>{article.headline}</CollectionItem> )}
         </Collection>
         <Collection>
-          {this.props.selectedArticles.map(article => <CollectionItem href="#" key={article.id}>{article.headline}</CollectionItem> )}
+          {this.props.readingLists.map(readingList => <CollectionItem key={readingList.id}><Link to={`/${readingList.id}`} key={readingList.id}>{readingList.title}</Link></CollectionItem>)}
         </Collection>
-        <Collapsible>
-            {this.props.readingLists.map(readingList => <CollapsibleItem header={readingList.title} href="#" key={readingList.id}><Button className="blue" waves="light">▲ Add to List</Button>{this.renderReadingList(readingList)}</CollapsibleItem>)}
-        </Collapsible>
       </div>
     )
   }
 }
+
+// {this.props.readingLists.map(readingList => <CollectionItem header={readingList.title} href="#" key={readingList.id}><Button className="blue" waves="light">▲ Add to List</Button>{this.renderReadingList(readingList)}</CollectionItem>)}
