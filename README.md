@@ -5,4 +5,4 @@ A fast, searchable, single-page catalogue of archival NYT articles. 'Reading Lis
 # Site in Action
 
 
-<img src='.src/images/Screen Shot 2017-07-10 at 3.27.02 PM.png'/>
+<img src='./src/images/screenshot.png'/>
